@@ -3,7 +3,25 @@ Cesium.Ion.defaultAccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOi
 var flightData
 
 async function initializeViewer() {
-    const viewer = new Cesium.Viewer("cesiumContainer");
+    
+    //const viewer = new Cesium.Viewer("cesiumContainer");
+
+    //below section is not being recognized, comment out and use above code if needed
+    const viewer = new Cesium.Viewer("cesiumContainer", {
+        baseLayer: Cesium.ImageryLayer.fromWorldImagery({
+            style: Cesium.IonWorldImageryStyle.AERIAL_WITH_LABELS,
+        }),
+        baseLayerPicker: false,
+    });
+    const layers = viewer.scene.imageryLayers;
+
+    const blackMarble = Cesium.ImageryLayer.fromProviderAsync(
+        Cesium.IonImageryProvider.fromAssetId(3812)
+    );
+    blackMarble.alpha = 0.5;
+    blackMarble.brightness = 2.0;
+    layers.add(blackMarble);
+    //end section
 
     const osmBuildings = viewer.scene.primitives.add(Cesium.createOsmBuildings());
 
